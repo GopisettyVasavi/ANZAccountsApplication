@@ -1,0 +1,131 @@
+swagger: "2.0"
+info:
+  description: "This is Account services API."
+  version: "1.0.0"
+  title: "Swagger Accounts Service API"
+  contact:
+    email: "Vasasvi.vakkanti@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "account-service"
+basePath: "/"
+tags:
+- name: "Account Service API"
+  description: "Retrieve customer accounts and transactions list"
+schemes:
+- "https"
+- "http"
+paths:
+  /accounts/{customerId}:
+    get:
+      tags:
+      - "AccountService"
+      summary: "Find  List of Accounts for a Customer"
+      description: ""
+      operationId: "getAccountsByCustomer"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        description: "CustomerId  that needs to be fetched"
+        required: true
+        type: "number"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Accounts"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Customer does not exist "
+  /transactions/{accountNo}:
+    get:
+      tags:
+      - "AccountService"
+      summary: "Find  List of Transactions for an Account"
+      description: ""
+      operationId: "getTransactionsByAccount"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "accountNo"
+        in: "path"
+        description: "accountNo  that needs to be fetched"
+        required: true
+        type: "number"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Transactions"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Customer does not exist "
+ 
+  
+definitions:
+  Accounts:
+   type: "object"
+   properties:
+    accounts:
+      items:
+        $ref: '#/definitions/Account'
+  Account:
+    type: "object"
+    properties:
+      accountNo:
+        type: "number"
+        format: "Account Number"
+      accountName:
+        type: "string"
+        format: "Account Name"
+      accountType:
+        type: "string"
+        format: "Account Type"
+      currency:
+        type: "string"
+        format: "Currency Code"
+      accountBalance:
+        type: "number"
+        format: "Account Balance"
+      customerId:
+        type: "number"
+    xml:
+      name: "Account"
+  Transactions:
+   type: "object"
+   properties:
+    transactions:
+      items:
+        $ref: '#/definitions/Transaction'
+  Transaction:
+    type: "object"
+    properties:
+      transactionId:
+        type: "number"
+        format: "Transaction Id"
+      transactionType:
+        type: "string"
+        format: "Transaction Type"
+      creditAmount:
+        type: "number"
+        format: "Credit Amount"
+      debitAmount:
+        type: "number"
+        format: "Debit Amount"
+      transactionNarrative:
+        type: "string"
+        format: "Transaction Description"
+      transactionDate:
+        type: "string"
+        format: "Transaction Date"
+      accountNo:
+        type: "number"
+        format: "Account No"
+      
+    xml:
+      name: "Transaction"
